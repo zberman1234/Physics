@@ -1,22 +1,24 @@
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        boolean IamFine = true;
-        double position = 0;
-        double velocity = 0;
-        double acceleration = 1;
-        double mass = 1;
-        double force = mass * acceleration;
+       Matter me = new Matter();
+       Matter you = new Matter();
+       you.force = -me.force;
 
-        while(IamFine) {
-            acceleration = force / mass;
-            position += velocity;
-            velocity += acceleration;
-            if(IamFine) {
-                p("I am fine, my position is " + position);
-            } 
+        while(me.IamFine) {
+            me.acceleration = me.force/me.mass;
+            me.updateAcceleration();
+            me.updatePosition();
+            me.updateVelocity();
+            p(me);
 
-            if(position > 10) IamFine = false;
+            me.updateEmotionalStatus();
+
+            you.updateAcceleration(); 
+            you.updatePosition();
+            you.updateVelocity();
+            p(you);
+            you.updateEmotionalStatus();
         }
 
         p("I am not fine");
