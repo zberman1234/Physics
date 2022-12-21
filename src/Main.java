@@ -1,28 +1,41 @@
 public class Main {
+    int pass = 0;
+    int fail = 0;
     public static void main(String[] args) throws Exception {
 
-       Matter me = new Matter();
-       Matter you = new Matter();
-       you.force = -me.force;
+        Matter me = new Matter(10);
+        Matter you = new Matter();
+        Matter him = new Matter(20);
+
+        me.setName("me");
+        you.setName("you");
+        him.setName("him");
+
+        double dt = 0.1;
 
         while(me.IamFine) {
-            me.acceleration = me.force/me.mass;
-            me.updateAcceleration();
-            me.updatePosition();
-            me.updateVelocity();
-            p(me);
+            me.force = computeForce(me, you);
+            you.force = computeForce(you, me);
+            him.force = computeForce(him, me);
+            him.force += computeForce(him, you);
+            me.force += computeForce(me, him);
+            you.force += computeForce(you, him);
 
-            me.updateEmotionalStatus();
-
-            you.updateAcceleration(); 
-            you.updatePosition();
-            you.updateVelocity();
-            p(you);
-            you.updateEmotionalStatus();
+            me.update(dt);
+            you.update(dt);
+            him.update(dt);
+            
         }
 
         p("I am not fine");
 
+        
+
+    }
+
+
+    private static double computeForce(Matter on, Matter from) {
+        return -(on.position - from.position);
     }
 
     public static void p(Object o) {
